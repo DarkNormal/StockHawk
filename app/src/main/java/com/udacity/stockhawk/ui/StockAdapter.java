@@ -4,6 +4,7 @@ package com.udacity.stockhawk.ui;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,9 +67,12 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
         cursor.moveToPosition(position);
 
-
-        holder.symbol.setText(cursor.getString(Contract.Quote.POSITION_SYMBOL));
-        holder.price.setText(dollarFormat.format(cursor.getFloat(Contract.Quote.POSITION_PRICE)));
+        String stockSymbol = cursor.getString(Contract.Quote.POSITION_SYMBOL);
+        String stockPrice = dollarFormat.format(cursor.getFloat(Contract.Quote.POSITION_PRICE));
+        holder.symbol.setText(stockSymbol);
+        holder.symbol.setContentDescription(String.format(context.getString(R.string.accessibility_stock_name), stockSymbol));
+        holder.price.setContentDescription(String.format(context.getString(R.string.accessibility_stock_price), stockPrice));
+        holder.price.setText(stockPrice);
 
 
         float rawAbsoluteChange = cursor.getFloat(Contract.Quote.POSITION_ABSOLUTE_CHANGE);
@@ -86,8 +90,10 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
         if (PrefUtils.getDisplayMode(context)
                 .equals(context.getString(R.string.pref_display_mode_absolute_key))) {
             holder.change.setText(change);
+            holder.change.setContentDescription(String.format(context.getString(R.string.accessibility_stock_change), change));
         } else {
             holder.change.setText(percentage);
+            holder.change.setContentDescription(String.format(context.getString(R.string.accessibility_stock_change), percentage));
         }
 
 
@@ -105,6 +111,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
     interface StockAdapterOnClickHandler {
         void onClick(String symbol);
+
     }
 
     class StockViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -130,6 +137,8 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
             cursor.moveToPosition(adapterPosition);
             int symbolColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_SYMBOL);
             clickHandler.onClick(cursor.getString(symbolColumn));
+
+            Log.i("content description", symbol.getContentDescription().toString());
 
         }
 

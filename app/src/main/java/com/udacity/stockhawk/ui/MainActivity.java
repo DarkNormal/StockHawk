@@ -33,13 +33,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         StockAdapter.StockAdapterOnClickHandler {
 
     private static final int STOCK_LOADER = 0;
-    @SuppressWarnings("WeakerAccess")
+
     @BindView(R.id.recycler_view)
     RecyclerView stockRecyclerView;
-    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
-    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.error)
     TextView error;
     private StockAdapter adapter;
