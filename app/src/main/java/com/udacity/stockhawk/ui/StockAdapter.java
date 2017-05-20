@@ -140,6 +140,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
             Log.i("content description", symbol.getContentDescription().toString());
 
+
         }
 
 
